@@ -59,7 +59,11 @@ class GoogleCloudStorageHook(GoogleCloudBaseHook):
 
         # Write the file to local file path, if requested.
         if filename:
-            with open(filename, 'w') as file_fd:
+            if isinstance(downloaded_file_bytes, str):
+                write_argument = 'w'
+            elif isinstance(downloaded_file_bytes, bytes):
+                write_argument = 'wb'
+            with open(filename, write_argument) as file_fd:
                 file_fd.write(downloaded_file_bytes)
 
         return downloaded_file_bytes
