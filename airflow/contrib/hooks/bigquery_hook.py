@@ -435,7 +435,7 @@ class BigQueryBaseCursor(object):
         # Check if job had errors.
         if 'errorResult' in job['status']:
             raise Exception(
-                'BigQuery job failed. Final error was: %s', job['status']['errorResult'])
+                'BigQuery job failed. Final error was: %s. Job object was: %s', job['status']['errorResult'], job)
 
         return job_id
 
