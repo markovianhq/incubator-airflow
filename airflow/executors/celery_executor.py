@@ -14,6 +14,7 @@
 
 from builtins import object
 import logging
+import os
 import subprocess
 import time
 
@@ -47,9 +48,22 @@ class CeleryConfig(object):
     CELERY_DEFAULT_QUEUE = DEFAULT_QUEUE
     CELERY_DEFAULT_EXCHANGE = DEFAULT_QUEUE
 
+
+def _configure_app_from_environment(celery_app):
+    celery_variables = [key for key in os.environ if key.startswith('CELERY_')]
+    celery_variables += [key for key in os.environ if key.startswith('CELERYD_')]
+
+    for variable in celery_variables:
+        celery_app.config_from_envvar(variable)
+
+    return celery_app
+
+
 app = Celery(
     configuration.get('celery', 'CELERY_APP_NAME'),
     config_source=CeleryConfig)
+
+app = _configure_app_from_environment(app)
 
 
 @app.task
