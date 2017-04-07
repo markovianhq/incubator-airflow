@@ -46,6 +46,7 @@ class CeleryConfig(object):
     CELERYD_CONCURRENCY = configuration.getint('celery', 'CELERYD_CONCURRENCY')
     CELERY_DEFAULT_QUEUE = DEFAULT_QUEUE
     CELERY_DEFAULT_EXCHANGE = DEFAULT_QUEUE
+    CELERY_IGNORE_RESULT = configuration.getboolean('celery', 'CELERY_IGNORE_RESULT')
 
 app = Celery(
     configuration.get('celery', 'CELERY_APP_NAME'),
